@@ -1,0 +1,21 @@
+.popup__close {
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+    background: none;
+    margin-left: 8px;
+}
+
+.popup__close:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 690px) {
+    .popup__close {
+        max-width: 20px;
+        height: 20px;
+        margin: 0;
+        margin-bottom: 16px;
+        margin-right: 10px;
+    }
+}

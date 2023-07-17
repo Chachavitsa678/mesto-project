@@ -1,0 +1,21 @@
+.popup__edit-name {
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid #000000;
+    padding: 5px 0;
+    font-size: 13px;
+    color: #000000;
+    font-weight: 400;
+    text-align: start;
+}
+
+.popup__edit-name:focus {
+    outline: none;
+    border-color: #000000;
+}
+
+@media screen and (max-width: 690px) {
+    .popup__edit-name {
+        padding-top: 45px;
+    }
+}

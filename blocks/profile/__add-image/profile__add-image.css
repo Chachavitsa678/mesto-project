@@ -1,0 +1,10 @@
+.profile__add-image {
+    max-width: 22px;
+    object-position: center;
+}
+
+@media screen and (max-width: 609px) {
+    .profile__add-image {
+        max-width: 18px;
+    }
+}

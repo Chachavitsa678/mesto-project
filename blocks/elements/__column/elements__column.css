@@ -1,0 +1,10 @@
+.elements__column {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+    margin: 0;
+    padding: 25px 20px 28px 21px;
+}

@@ -1,0 +1,16 @@
+.popup__edit-description {
+    border: none;
+    border-bottom: 1px solid #000000;
+    padding: 5px 0;
+    font-size: 13px;
+    color: #000000;
+    font-weight: 400;
+    width: 100%;
+    text-align: start;
+    margin-bottom: 12px;
+}
+
+.popup__edit-description:focus {
+    outline: none;
+    border-color: #000000;
+}

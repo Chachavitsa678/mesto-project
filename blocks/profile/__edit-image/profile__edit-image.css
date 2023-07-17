@@ -1,0 +1,11 @@
+.profile__edit-image {
+    width: 24px;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 690px) {
+    .profile__edit-image{
+        width: 18px;;
+    }
+    
+}
