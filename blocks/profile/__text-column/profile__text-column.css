@@ -4,6 +4,13 @@
     margin: 0;
     margin-left: 30px;
     justify-content: center;
+    max-width: 336px;
+}
+
+@media screen and (max-width: 750px) {
+    .profile__text-column {
+        max-width: 282px;
+    }
 }
 
 @media screen and (max-width: 690px) {
@@ -11,5 +18,7 @@
         align-items: center;
         margin-left: 0;
         margin-top: 26px;
+        
     }
 }
+

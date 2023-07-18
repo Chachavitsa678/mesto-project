@@ -1,9 +1,13 @@
 .popup__close {
     border: none;
     cursor: pointer;
-    align-self: flex-end;
+    /* align-self: flex-end; */
     background: none;
-    margin-left: 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: -40px;
+    margin-right: -24px
 }
 
 .popup__close:hover {
@@ -14,8 +18,7 @@
     .popup__close {
         max-width: 20px;
         height: 20px;
-        margin: 0;
-        margin-bottom: 16px;
-        margin-right: 10px;
+        margin-right: 6px;
+        margin-top: -35px;
     }
 }

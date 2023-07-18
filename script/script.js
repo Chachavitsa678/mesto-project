@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     editButton.addEventListener('click', function () {
         const profileTitle = document.querySelector('.profile__title').textContent;
         const profileSubtitle = document.querySelector('.profile__subtitle').textContent;
-        const nameInput = document.querySelector('.popup__edit-name');
-        const descriptionInput = document.querySelector('.popup__edit-description');
+        const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
+        const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
 
         nameInput.value = profileTitle;
         descriptionInput.value = profileSubtitle;
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Обработчик клика на кнопку сохранения
     const saveButton = document.querySelector('.popup__save-button');
     saveButton.addEventListener('click', function () {
-        const nameInput = document.querySelector('.popup__edit-name');
-        const descriptionInput = document.querySelector('.popup__edit-description');
+        const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
+        const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
         const profileTitle = document.querySelector('.profile__title');
         const profileSubtitle = document.querySelector('.profile__subtitle');
 

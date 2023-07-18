@@ -4,7 +4,8 @@
     height: 50px;
     background-color: black;
     font-weight: 400;
-    text-size-adjust: 16px;
+    font-size: 18px;
+    line-height: 21.78px;
     color: white;
     border: none;
     cursor: pointer;
@@ -20,5 +21,7 @@
     .popup__save-button {
         width: 238px;
         height: 46px;
+        font-size: 14px;
+        line-height: 16.94px;
     }
 }

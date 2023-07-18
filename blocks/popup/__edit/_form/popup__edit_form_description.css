@@ -1,0 +1,10 @@
+.popup__edit_form_description {
+    padding: 5px 0;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 690px) {
+    .popup__edit_form_description {
+        margin-bottom: 10px;
+    }
+}

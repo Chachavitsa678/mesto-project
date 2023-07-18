@@ -6,10 +6,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    line-height: 21.78px;
 }
 
 @media screen and (max-width: 1024px) {
     .profile__subtitle {
         font-size: 14px;
+        line-height: 16.94px;
     }
 }
