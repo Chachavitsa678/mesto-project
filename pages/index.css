@@ -27,7 +27,7 @@
 
 @import "../blocks/popup/popup.css";
 @import "../blocks/popup/__close/popup__close.css";
-@import "../blocks/popup/__container/popup_container.css";
+@import "../blocks/popup/__container/popup__container.css";
 @import "../blocks/popup/__edit/popup__edit.css";
 @import "../blocks/popup/__edit/_form/popup__edit_form_description.css";
 @import "../blocks/popup/__edit/_form/popup__edit_form_name.css";

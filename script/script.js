@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Обработчик клика на кнопку сохранения
     const saveButton = document.querySelector('.popup__save-button');
     saveButton.addEventListener('click', function () {
+        event.preventDefault();
         const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
         const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
         const profileTitle = document.querySelector('.profile__title');
@@ -56,5 +57,38 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+    // Ограничение ширины текста в полях ввода
+    const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
+    const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
+    const nameInputParent = nameInput.parentNode;
+    const descriptionInputParent = descriptionInput.parentNode;
 
+    const maxNameInputWidth = nameInputParent.clientWidth; // Максимальная ширина поля ввода имени
+    const maxDescriptionInputWidth = descriptionInputParent.clientWidth; // Максимальная ширина поля ввода описания
+
+    // Функция для сокращения текста в поле ввода
+    const truncateInputText = (input, maxWidth) => {
+        const originalText = input.value;
+        input.style.width = 'auto'; // Сброс ширины поля ввода
+
+        while (input.scrollWidth > maxWidth && input.value.length > 0) {
+            input.value = input.value.slice(0, -1); // Удаление последнего символа
+        }
+
+        // Если текст был сокращен, добавляем многоточие в конце
+        if (input.value.length < originalText.length) {
+            input.value += '...';
+        }
+
+        input.style.width = '100%'; // Восстанавливаем ширину поля ввода
+    };
+
+    truncateInputText(nameInput, maxNameInputWidth);
+    truncateInputText(descriptionInput, maxDescriptionInputWidth);
+
+    // Обновление ширины текста в полях ввода при изменении размеров окна
+    window.addEventListener('resize', function () {
+        truncateInputText(nameInput, maxNameInputWidth);
+        truncateInputText(descriptionInput, maxDescriptionInputWidth);
+    });
 });
