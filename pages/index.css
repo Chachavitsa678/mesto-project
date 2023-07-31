@@ -24,6 +24,8 @@
 @import "../blocks/elements/__item/elements__item.css";
 @import "../blocks/elements/__like/elements__like.css";
 @import "../blocks/elements/__title/elements__title.css";
+@import "../blocks/elements/__delete/elements__delete.css";
+@import "../blocks/elements/__box/elements__box.css";
 
 @import "../blocks/popup/popup.css";
 @import "../blocks/popup/__close/popup__close.css";

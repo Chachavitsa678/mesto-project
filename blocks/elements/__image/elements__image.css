@@ -1,6 +1,7 @@
 .elements__image {
     margin: 0;
     background-color: black;
-    min-height: 282px;
-    object-fit: cover;
+    position: absolute;
+    object-fit: contain;
+    
 }

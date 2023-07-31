@@ -1,16 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
     const editButton = document.querySelector('.profile__edit-button');
+    const addButton = document.querySelector('.profile__add-button');
     const popup = document.querySelector('.popup');
+    const saveButton = document.querySelector('.popup__save-button');
+    let isEditDialogOpen;
+    const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
+    const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
+
 
     // Обработчик клика на кнопку редактирования
     editButton.addEventListener('click', function () {
         const profileTitle = document.querySelector('.profile__title').textContent;
         const profileSubtitle = document.querySelector('.profile__subtitle').textContent;
-        const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
-        const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
+        isEditDialogOpen = true;
 
         nameInput.value = profileTitle;
         descriptionInput.value = profileSubtitle;
+        console.log("opened dialog")
+        // Показать диалог
+        popup.classList.add('popup_opened');
+    });
+
+    addButton.addEventListener('click', function () {
+        const popupTitle = document.querySelector('.popup__title');
+        popupTitle.textContent = 'Новое место';
+        saveButton.textContent = 'Создать';
+        isEditDialogOpen = false;
+
+        nameInput.value = '';
+        descriptionInput.value = '';
+
+
         console.log("opened dialog")
         // Показать диалог
         popup.classList.add('popup_opened');
@@ -23,18 +43,18 @@ document.addEventListener('DOMContentLoaded', function () {
         popup.classList.remove('popup_opened');
     });
     // Обработчик клика на кнопку сохранения
-    const saveButton = document.querySelector('.popup__save-button');
     saveButton.addEventListener('click', function () {
         event.preventDefault();
-        const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
-        const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
+        if (isEditDialogOpen) {
         const profileTitle = document.querySelector('.profile__title');
         const profileSubtitle = document.querySelector('.profile__subtitle');
 
         // Сохранить значения из полей в профиле
         profileTitle.textContent = nameInput.value;
         profileSubtitle.textContent = descriptionInput.value;
-
+        } else {
+            //Сюда надо добавить логику для нового места
+        }
         // Скрыть диалог
         popup.classList.remove('popup_opened');
     });
@@ -45,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function (event) {
             const likeButton = event.currentTarget.parentNode;
             const likeImage = likeButton.querySelector('.elements__like-image');
-            console.log("click like");
             if (likeButton.classList.contains('elements__like_active')) {
                 // Удаляем модификатор и возвращаем изначальную картинку
                 likeButton.classList.remove('elements__like_active');
@@ -58,8 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     // Ограничение ширины текста в полях ввода
-    const nameInput = document.querySelector('.popup__edit.popup__edit_form_name');
-    const descriptionInput = document.querySelector('.popup__edit.popup__edit_form_description');
     const nameInputParent = nameInput.parentNode;
     const descriptionInputParent = descriptionInput.parentNode;
 
@@ -92,3 +109,36 @@ document.addEventListener('DOMContentLoaded', function () {
         truncateInputText(descriptionInput, maxDescriptionInputWidth);
     });
 });
+
+
+
+
+
+
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+    ];
+       
