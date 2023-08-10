@@ -1,7 +1,9 @@
 .elements__image {
     margin: 0;
+    height: 100%;
+    width: 100%;
     background-color: black;
     position: absolute;
-    object-fit: contain;
-    
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
 }

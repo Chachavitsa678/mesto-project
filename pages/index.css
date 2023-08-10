@@ -39,6 +39,14 @@
 @import "../blocks/popup/__column/popup__column.css";
 @import "../blocks/popup/__close-image/popup__close-image.css";
 
+@import "../blocks/popup/__close-button-for-view/popup__close-button-for-view.css";
+@import "../blocks/popup/__view-container/popup__view-container.css";
+@import "../blocks/popup/_view/popup_view.css";
+@import "../blocks/popup/__photo/popup__photo.css";
+@import "../blocks/popup/__description/popup__description.css";
+
+
 @import "../blocks/footer/footer.css";
 @import "../blocks/footer/__copyright/footer__copyright.css";
+
 
