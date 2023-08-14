@@ -175,6 +175,12 @@ function handleDeleteButtonClick(event) {
         cardElement.remove(); // Удаление элемента из DOM
     }
 }
+function handleDeleteButtonClick(event) {
+    const cardElement = event.target.closest('.elements__item');
+    if (cardElement) {
+        cardElement.remove(); // Удаление элемента из DOM
+    }
+}
 
 
 const initialCards = [
