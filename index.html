@@ -33,111 +33,60 @@
                 </button>
             </section>
 
-
             <section class="elements">
-                <div class="elements__item">
-                    <div class="elements__box">
-                        <img class="elements__image" src="./images/karachaevsk.png" alt="Монастырь">
-                        <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
-                        </button>
-                    </div>
-                    <div class="elements__column">
-                        <h2 class="elements__title">Карачаевск</h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
-                        </button>
-                    </div>
-                </div>
-
-                <div class="elements__item">
-                    <div class="elements__box">
-                        <img class="elements__image" src="./images/albrus.png" alt="Закат над Эльбрусом">
-                        <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
-                        </button>
-                    </div>
-                    <div class="elements__column">
-                        <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
-                        </button>
-                    </div>
-                </div>
-
-                <div class="elements__item">
-                    <div class="elements__box">
-                        <img class="elements__image" src="./images/dombai.png" alt="Гора">
-                        <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
-                        </button>
-                    </div>
-                    <div class="elements__column">
-                        <h2 class="elements__title">Домбай</h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
-                        </button>
-                    </div>
-                </div>
-
-                <div class="elements__item">
-                    <div class="elements__box">
-                        <img class="elements__image" src="./images/albrus.png" alt="Закат над Эльбрусом">
-                        <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
-                        </button>
-                    </div>
-                    <div class="elements__column">
-                        <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
-                        </button>
-                    </div>
-                </div>
-
-                <div class="elements__item">
-                    <div class="elements__box">
-                        <img class="elements__image" src="./images/dombai.png" alt="Гора">
-                        <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
-                        </button>
-                    </div>
-                    <div class="elements__column">
-                        <h2 class="elements__title">Домбай</h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
-                        </button>
-                    </div>
-                </div>
-
-                <div class="elements__item">
-                    <div class="elements__box">
-                        <img class="elements__image" src="./images/karachaevsk.png" alt="Монастырь">
-                        <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
-                        </button>
-                    </div>
-                    <div class="elements__column">
-                        <h2 class="elements__title">Карачаево-Черкессия</h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
-                        </button>
-                    </div>
-                </div>
             </section>
+            <template id="card-template">
+                <div class="elements__item">
+                    <div class="elements__box">
+                        <img class="elements__image" src="" alt="">
+                        <button class="elements__delete" type="button">
+                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
+                        </button>
+                    </div>
+                    <div class="elements__column">
+                        <h2 class="elements__title"></h2>
+                        <button class="elements__like" type="button">
+                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
+                        </button>
+                    </div>
+                </div>
+            </template>
         </main>
-        <section class="popup">
+        <section class="popup popup_form_edit">
             <div class="popup__column">
-                <button class="popup__close" type="button">
+                <button class="popup__close popup_form_edit" type="button">
                     <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
                 </button>
-                <form class="popup__container" name="profile editing">
+                <form class="popup__container popup_form_edit" name="profile editing">
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <input class="popup__edit popup__edit_form_name" type="text" name="name" placeholder="Название">
-                    <input class="popup__edit popup__edit_form_description" type="text" name="description"
-                        placeholder="Ссылка на картинку">
+                    <input class="popup__edit popup__edit_form_name popup_form_edit" type="text" name="name" placeholder="Имя">
+                    <input class="popup__edit popup__edit_form_description popup_form_edit" type="text" name="description"
+                        placeholder="Описание">
                     <button class="popup__save-button" type="submit">Сохранить</button>
                 </form>
+            </div>
+        </section>
+        <section class="popup popup_form_add">
+            <div class="popup__column">
+                <button class="popup__close popup_form_add" type="button">
+                    <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
+                </button>
+                <form class="popup__container popup_form_add" name="profile add">
+                    <h2 class="popup__title">Новое место</h2>
+                    <input class="popup__edit popup__edit_form_name popup_form_add" type="text" name="name" placeholder="Название">
+                    <input class="popup__edit popup__edit_form_description popup_form_add" type="text" name="description"
+                        placeholder="Ссылка на картинку">
+                    <button class="popup__save-button" type="submit">Создать</button>
+                </form>
+            </div>
+        </section>
+        <section class="popup popup_form_view">
+            <div class="popup__view-container">
+                <button class="popup__close popup__close-button-for-view" type="button" aria-label="Закрыть окно">
+                    <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
+                </button>
+                <img class="popup__photo" src=" " alt="Фотография места." />
+                <p class="popup__description"></p>
             </div>
         </section>
         <footer class="footer">
