@@ -4,6 +4,7 @@ const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonAdd = document.querySelector('.profile__add-button');
+const buttonCloseView = document.querySelector('.popup__close.popup__close-button-for-view');
 
 // edit popup consts
 const popupEdit = document.querySelector('.popup.popup_form_edit');
@@ -14,7 +15,7 @@ const buttonCloseEdit = document.querySelector('.popup__close.popup_form_edit');
 // add popup consts
 const popupAdd = document.querySelector('.popup.popup_form_add');
 const nameInputAdd = document.querySelector('.popup__edit.popup__edit_form_name.popup_form_add');
-const descriptionInputAdd = document.querySelector('.popup__edit.popup__edit_form_description.popup_form_add'); 
+const descriptionInputAdd = document.querySelector('.popup__edit.popup__edit_form_description.popup_form_add');
 const formAdd = document.querySelector('.popup__container.popup_form_add');
 const buttonCloseAdd = document.querySelector('.popup__close.popup_form_add');
 // photo popup consts
@@ -31,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
         nameInputEdit.value = profileTitle.textContent;
         descriptionInputEdit.value = profileSubtitle.textContent;
         console.log('opened edit dialog');
-       
+
         // Показать диалог
         openPopup(popupEdit);
     });
 
-    buttonAdd.addEventListener('click', function () { 
+    buttonAdd.addEventListener('click', function () {
         // Показать диалог
         openPopup(popupAdd);
     });
@@ -45,21 +46,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     buttonCloseEdit.addEventListener('click', function () {
         // Скрыть диалог
-       closePopup(popupEdit);
+        closePopup(popupEdit);
     });
 
     buttonCloseAdd.addEventListener('click', function () {
         // Скрыть диалог
-       closePopup(popupAdd);
+        closePopup(popupAdd);
     });
+
+    buttonCloseView.addEventListener('click', function () {
+        // Скрыть диалог
+        closePopup(popupView);
+    });
+
     // Обработчик клика на кнопку сохранения
     formEdit.addEventListener('submit', function (event) {
         event.preventDefault();
-        saveInfo(popupEdit);
+        saveEditInfo(popupEdit);
     });
     formAdd.addEventListener('submit', function (event) {
         event.preventDefault();
-        saveInfo(popupAdd);
+        saveAddInfo(popupAdd);
     });
 
     // Ограничение ширины текста в полях ввода
@@ -96,29 +103,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function saveInfo(popup) {
+function saveEditInfo(popup) {
     // Сохранить значения из полей в профиле
-    if (popup === popupEdit) {
         profileTitle.textContent = nameInputEdit.value;
         profileSubtitle.textContent = descriptionInputEdit.value;
-    } else if (popup === popupAdd) {
-    const cardElement = createCardElement(nameInputAdd.value, descriptionInputAdd.value);
-    elementsContainer.prepend(cardElement);
-    nameInputAdd.value = '';
-    descriptionInputAdd.value = '';
+        closePopup(popup);
     }
-    // Скрыть диалог
-    closePopup(popup);
-}
-function openPopup(popup){
-    popup.classList.add('popup_opened'); 
+function saveAddInfo(popup) {
+        const cardElement = createCardElement(nameInputAdd.value, descriptionInputAdd.value);
+        elementsContainer.prepend(cardElement);
+        nameInputAdd.value = '';
+        descriptionInputAdd.value = '';
+        closePopup(popup);
+    }
+
+
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
 }
 
-function closePopup(popup){
-    popup.classList.add('popup_closed');
-    popup.addEventListener('animationend', function () {
-        popup.classList.remove('popup_closed', 'popup_opened');
-    }, { once: true });
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
 }
 
 function createCardElement(name, link) {
@@ -160,11 +165,6 @@ function createCardElement(name, link) {
         image.src = cardImage.src;
         title.textContent = cardTitle.textContent;
         openPopup(popupView);
-    });
-    const buttonClose = document.querySelector('.popup__close.popup__close-button-for-view')
-    buttonClose.addEventListener('click', function () {
-        // Скрыть диалог
-        closePopup(popupView);
     });
     return cardClone;
 }

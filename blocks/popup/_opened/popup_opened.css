@@ -1,6 +1,7 @@
 .popup_opened {
     visibility: visible;
-    animation: fadeIn 0.5s linear;
+    opacity: 1;
+    pointer-events: auto;
 }
 @keyframes fadeIn {
     from {
