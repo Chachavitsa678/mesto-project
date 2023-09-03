@@ -8,28 +8,27 @@
     <meta name="description" content="Место">
     <meta name="keywords" content="HTMLS, CSS">
     <meta name="author" content="Полина Илянкина">
-    <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body class="background-body">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./images/logo.svg" alt="Место Россия">
+            <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Место Россия">
         </header>
         <main class="content">
             <section class="profile">
-                <img class="profile__avatar" src="./images/avatar.png" alt="Фото профиля">
+                <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Фото профиля">
                 <div class="profile__text-column">
                     <div class="profile__row">
                         <h1 class="profile__title">Жак-Ив Кусто</h1>
                         <button type="button" class="profile__edit-button">
-                            <img class="profile__edit-image" src="./images/edit-button.svg" alt="Кнопка редактировать">
+                            <img class="profile__edit-image" src="<%=require('./images/edit-button.svg')%>" alt="Кнопка редактировать">
                         </button>
                     </div>
                     <p class="profile__subtitle">Исследователь океана</p>
                 </div>
                 <button class="profile__add-button" type="button">
-                    <img class="profile__add-image" src="./images/add-button.svg" alt="Кнопка добавить">
+                    <img class="profile__add-image" src="<%=require('./images/add-button.svg')%>" alt="Кнопка добавить">
                 </button>
             </section>
 
@@ -40,13 +39,13 @@
                     <div class="elements__box">
                         <img class="elements__image" src="" alt="">
                         <button class="elements__delete" type="button">
-                            <img class="elements__delete-image" src="./images/trash.svg" alt="Удалить">
+                            <img class="elements__delete-image" src="<%=require('./images/trash.svg')%>" alt="Удалить">
                         </button>
                     </div>
                     <div class="elements__column">
                         <h2 class="elements__title"></h2>
                         <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="./images/like.svg" alt="Лайк">
+                            <img class="elements__like-image" src="<%=require('./images/like.svg')%>" alt="Лайк">
                         </button>
                     </div>
                 </div>
@@ -56,7 +55,7 @@
         <section class="popup popup_form_edit">
             <div class="popup__column">
                 <button class="popup__close popup_form_edit" type="button">
-                    <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
+                    <img class="popup__close-image" src="<%=require('./images/close-icon.svg')%>" alt="Закрыть">
                 </button>
                 <form class="popup__container popup_form_edit" name="profile editing" novalidate>
                     <h2 class="popup__title">Редактировать профиль</h2>
@@ -78,7 +77,7 @@
         <section class="popup popup_form_add">
             <div class="popup__column">
                 <button class="popup__close popup_form_add" type="button">
-                    <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
+                    <img class="popup__close-image" src="<%=require('./images/close-icon.svg')%>" alt="Закрыть">
                 </button>
                 <form class="popup__container popup_form_add" name="profile add" novalidate>
                     <h2 class="popup__title">Новое место</h2>
@@ -100,7 +99,7 @@
         <section class="popup popup_form_view">
             <div class="popup__view-container">
                 <button class="popup__close popup__close-button-for-view" type="button" aria-label="Закрыть окно">
-                    <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
+                    <img class="popup__close-image" src="<%=require('./images/close-icon.svg')%>" alt="Закрыть">
                 </button>
                 <img class="popup__photo" src=" " alt="Фотография места." />
                 <p class="popup__description"></p>
