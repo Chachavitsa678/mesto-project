@@ -52,34 +52,51 @@
                 </div>
             </template>
         </main>
+
         <section class="popup popup_form_edit">
             <div class="popup__column">
                 <button class="popup__close popup_form_edit" type="button">
                     <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
                 </button>
-                <form class="popup__container popup_form_edit" name="profile editing">
+                <form class="popup__container popup_form_edit" name="profile editing" novalidate>
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <input class="popup__edit popup__edit_form_name popup_form_edit" type="text" name="name" placeholder="Имя">
-                    <input class="popup__edit popup__edit_form_description popup_form_edit" type="text" name="description"
-                        placeholder="Описание">
+                    <div class="popup__box">
+                        <input class="popup__edit popup__edit_form_name popup_form_edit" type="text" name="name"
+                            placeholder="Имя" required minlength="2" maxlength="40">
+                        <span id="name-error" class="popup__error">Ета ашыбка</span>
+                    </div>
+                    <div class="popup__box">
+                        <input class="popup__edit popup__edit_form_description popup_form_edit" type="text"
+                            name="description" placeholder="Описание" required minlength="2" maxlength="200">
+                        <span id="description-error" class="popup__error">Ета ашыбка</span>
+                    </div>
                     <button class="popup__save-button" type="submit">Сохранить</button>
                 </form>
             </div>
         </section>
+
         <section class="popup popup_form_add">
             <div class="popup__column">
                 <button class="popup__close popup_form_add" type="button">
                     <img class="popup__close-image" src="./images/close-icon.svg" alt="Закрыть">
                 </button>
-                <form class="popup__container popup_form_add" name="profile add">
+                <form class="popup__container popup_form_add" name="profile add" novalidate>
                     <h2 class="popup__title">Новое место</h2>
-                    <input class="popup__edit popup__edit_form_name popup_form_add" type="text" name="name" placeholder="Название">
-                    <input class="popup__edit popup__edit_form_description popup_form_add" type="text" name="description"
-                        placeholder="Ссылка на картинку">
+                    <div class="popup__box">
+                        <input class="popup__edit popup__edit_form_name popup_form_add" type="text" name="name"
+                            placeholder="Название" required minlength="2" maxlength="30">
+                        <span id="place-error" class="popup__error">Ета ашыбка</span>
+                    </div>
+                    <div class="popup__box">
+                        <input class="popup__edit popup__edit_form_description popup_form_add" name="description"
+                            required type="url" placeholder="Ссылка на картинку">
+                        <span id="link-error" class="popup__error">Ета ашыбка</span>
+                    </div>
                     <button class="popup__save-button" type="submit">Создать</button>
                 </form>
             </div>
         </section>
+
         <section class="popup popup_form_view">
             <div class="popup__view-container">
                 <button class="popup__close popup__close-button-for-view" type="button" aria-label="Закрыть окно">
@@ -89,6 +106,7 @@
                 <p class="popup__description"></p>
             </div>
         </section>
+
         <footer class="footer">
             <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
         </footer>

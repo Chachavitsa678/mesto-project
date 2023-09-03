@@ -13,7 +13,7 @@
     line-height: 16.94px;
 }
 
-.popup__edit-name:focus {
+ .popup__edit-name:focus { 
     outline: none;
     border-color: rgba(0, 0, 0, 0.2);
-}
+} 

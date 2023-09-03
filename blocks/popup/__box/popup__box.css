@@ -1,0 +1,4 @@
+.popup__box {
+    flex-direction: column;
+    width: 100%;
+}

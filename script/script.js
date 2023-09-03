@@ -5,6 +5,7 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonAdd = document.querySelector('.profile__add-button');
 const buttonCloseView = document.querySelector('.popup__close.popup__close-button-for-view');
+const regex = /^[a-zA-Zа-яА-Я\- ]+$/;
 
 // edit popup consts
 const popupEdit = document.querySelector('.popup.popup_form_edit');
@@ -20,6 +21,11 @@ const formAdd = document.querySelector('.popup__container.popup_form_add');
 const buttonCloseAdd = document.querySelector('.popup__close.popup_form_add');
 // photo popup consts
 const popupView = document.querySelector('.popup.popup_form_view')
+// error popup consts
+const errorNameEdit = document.getElementById('name-error');
+const errorDescriptionEdit = document.getElementById('description-error');
+const errorNameAdd = document.getElementById('place-error');
+const errorDescriptionAdd = document.getElementById('link-error');
 
 document.addEventListener('DOMContentLoaded', function () {
     initialCards.forEach(card => {
@@ -32,14 +38,15 @@ document.addEventListener('DOMContentLoaded', function () {
         nameInputEdit.value = profileTitle.textContent;
         descriptionInputEdit.value = profileSubtitle.textContent;
         console.log('opened edit dialog');
-
         // Показать диалог
-        openPopup(popupEdit);
+        startValidityAfterLoad();
+        openPopup(event, popupEdit);
     });
 
-    buttonAdd.addEventListener('click', function () {
+    buttonAdd.addEventListener('click', function (event) {
         // Показать диалог
-        openPopup(popupAdd);
+        startValidityAfterLoad();
+        openPopup(event, popupAdd);
     });
 
     // Обработчик клика на кнопку закрытия диалога
@@ -67,6 +74,22 @@ document.addEventListener('DOMContentLoaded', function () {
     formAdd.addEventListener('submit', function (event) {
         event.preventDefault();
         saveAddInfo(popupAdd);
+    });
+
+    nameInputEdit.addEventListener("input", () => {
+        isValid(nameInputEdit, errorNameEdit, formEdit);
+    });
+
+    descriptionInputEdit.addEventListener("input", () => {
+        isValid(descriptionInputEdit, errorDescriptionEdit, formEdit);
+    });
+
+    nameInputAdd.addEventListener("input", () => {
+        isValid(nameInputAdd, errorNameAdd, formAdd);
+    });
+
+    descriptionInputAdd.addEventListener("input", () => {
+        isValid(descriptionInputAdd, errorDescriptionAdd, formAdd);
     });
 
     // Ограничение ширины текста в полях ввода
@@ -105,26 +128,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function saveEditInfo(popup) {
     // Сохранить значения из полей в профиле
-        profileTitle.textContent = nameInputEdit.value;
-        profileSubtitle.textContent = descriptionInputEdit.value;
-        closePopup(popup);
-    }
+    profileTitle.textContent = nameInputEdit.value;
+    profileSubtitle.textContent = descriptionInputEdit.value;
+    closePopup(popup);
+}
 function saveAddInfo(popup) {
-        const cardElement = createCardElement(nameInputAdd.value, descriptionInputAdd.value);
-        elementsContainer.prepend(cardElement);
-        nameInputAdd.value = '';
-        descriptionInputAdd.value = '';
-        closePopup(popup);
-    }
+    const cardElement = createCardElement(nameInputAdd.value, descriptionInputAdd.value);
+    elementsContainer.prepend(cardElement);
+    nameInputAdd.value = '';
+    descriptionInputAdd.value = '';
+    closePopup(popup);
+}
 
 
-function openPopup(popup) {
+function openPopup(buttonEvent, popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener("keydown", function (event) {
+        handleEscClose(event, popup);
+    });
+    buttonEvent.stopPropagation();
+    document.addEventListener("click", function (event) {
+        handleOverleyClose(event, popup);
+    });
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
 }
+
+function handleEscClose(event, popup) {
+    console.log(event.key);
+    if (event.key === 'Escape') {
+        closePopup(popup);
+    }
+}
+
+function handleOverleyClose(event, popup) {
+    let popupContainer = popup.querySelector('[class*="popup__container"]') || popup.querySelector('[class*="popup__view-container"]');
+    if (!popupContainer.contains(event.target) && popup.classList.contains('popup_opened')) {
+        closePopup(popup);
+    }
+}
+
 
 function createCardElement(name, link) {
     const cardTemplate = document.querySelector('#card-template');
@@ -159,22 +204,67 @@ function createCardElement(name, link) {
         }
     });
     // Листенер для отображения картинки в полный размер
-    cardImage.addEventListener('click', () => {
+    cardImage.addEventListener('click', (event) => {
         const image = document.querySelector('.popup__photo');
         const title = document.querySelector('.popup__description');
         image.src = cardImage.src;
         title.textContent = cardTitle.textContent;
-        openPopup(popupView);
+        openPopup(event, popupView);
     });
     return cardClone;
 }
 
-function handleDeleteButtonClick(event) {
-    const cardElement = event.target.closest('.elements__item');
-    if (cardElement) {
-        cardElement.remove(); // Удаление элемента из DOM
-    }
+function startValidityAfterLoad() {
+    isValid(nameInputAdd, errorNameAdd, formAdd);
+    isValid(descriptionInputAdd, errorDescriptionAdd, formAdd);
+    isValid(nameInputEdit, errorNameEdit, formEdit);
+    isValid(descriptionInputEdit, errorDescriptionEdit, formEdit);
 }
+
+
+const showInputError = (element, errorMessage, errorButton) => {
+    element.classList.add('popup__edit_error-visible');
+    errorMessage.classList.add('popup__error_visible');
+    errorButton.classList.add('popup__save-button_disabled');
+    errorButton.disabled = true;
+    errorButton.style.pointerEvents = 'none';
+    errorMessage.textContent = getErrorMessage(element);
+    //Vasya
+};
+
+const hideInputError = (element, errorMessage, errorButton) => {
+    element.classList.remove('popup__edit_error-visible');
+    errorMessage.classList.remove('popup__error_visible');
+    errorButton.classList.remove('popup__save-button_disabled');
+    errorButton.disabled = false;
+    errorButton.style.pointerEvents = 'auto';
+};
+
+const isValid = (element, errorMessage, form) => {
+    const errorButton = form.querySelector('.popup__save-button');
+    const isElementValid = element.type === 'url' ? element.validity.valid : element.validity.valid && regex.test(element.value);
+    
+    if (!isElementValid) {
+        showInputError(element, errorMessage, errorButton);
+    } else {
+        hideInputError(element, errorMessage, errorButton);
+    }
+};
+
+function getErrorMessage(element) {
+    let errorString = '';
+    if (element.value === '') {
+        errorString = 'Вы пропустили это поле.';
+    }
+    if (element.validity.tooShort) {
+        errorString = 'Минимальное количество символов: 2. Длина текста сейчас: ' + element.value.length + ' символ.';
+    }
+    if (element.validity.typeMismatch) {
+        errorString = 'Введите адрес сайта.';
+    }
+    return errorString;
+}
+
 function handleDeleteButtonClick(event) {
     const cardElement = event.target.closest('.elements__item');
     if (cardElement) {
