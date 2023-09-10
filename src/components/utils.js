@@ -10,13 +10,16 @@ const popupEdit = document.querySelector('.popup.popup_form_edit');
 const nameInputEdit = document.querySelector('.popup__edit.popup__edit_form_name.popup_form_edit');
 const descriptionInputEdit = document.querySelector('.popup__edit.popup__edit_form_description.popup_form_edit');
 const formEdit = document.querySelector('.popup__container.popup_form_edit');
+const closeBtnEdit = document.querySelector('.popup__close.popup_form_edit');
 // add popup consts
 const popupAdd = document.querySelector('.popup.popup_form_add');
 const nameInputAdd = document.querySelector('.popup__edit.popup__edit_form_name.popup_form_add');
 const descriptionInputAdd = document.querySelector('.popup__edit.popup__edit_form_description.popup_form_add');
 const formAdd = document.querySelector('.popup__container.popup_form_add');
+const closeBtnAdd = document.querySelector('.popup__close.popup_form_add');
 // photo popup consts
 const popupView = document.querySelector('.popup.popup_form_view')
+const closeBtnView = document.querySelector('.popup__close.popup__close-button-for-view');
 // error popup consts
 const errorNameEdit = document.getElementById('name-error');
 const errorDescriptionEdit = document.getElementById('description-error');
@@ -24,37 +27,16 @@ const errorNameAdd = document.getElementById('place-error');
 const errorDescriptionAdd = document.getElementById('link-error');
 
 //Поля валидации
-const fieldsEdit = [{
-    input: nameInputEdit,
-    error: errorNameEdit,
-    type: 'no_url'
-}, {
-    input: descriptionInputEdit,
-    error: errorDescriptionEdit,
-    type: 'no_url'
-}];
-const fieldsAdd = [{
-    input: nameInputAdd,
-    error: errorNameAdd,
-    type: 'no_url'
-}, {
-    input: descriptionInputAdd,
-    error: errorDescriptionAdd,
-    type: 'url'
-}];
+const validationSettings = {
+    formSelector: '.popup__container',
+    inputSelector: '.popup__edit',
+    submitButtonSelector: '.popup__save-button',
+    inactiveButtonClass: 'popup__save-button_disabled',
+    errorClass: 'popup__error',
+    errorInputModifier: 'popup__edit_error-visible',
+    errorMessageModifier: 'popup__error_visible',
+};
 
-const fieldsValidate = [
-    {
-        field: fieldsEdit,
-        form: formEdit
-    },
-
-    {
-        field: fieldsAdd,
-        form: formAdd
-    }
-
-];
 
 const initialCards = [
     {
@@ -112,12 +94,15 @@ const truncateInputText = (input, maxWidth) => {
 
 export {
     elementsContainer,
+    validationSettings,
     profileTitle,
     profileSubtitle,
     buttonAdd,
     buttonEdit,
     popupEdit,
-    fieldsValidate,
+    closeBtnEdit,
+    closeBtnAdd,
+    closeBtnView,
     popupAdd,
     nameInputEdit,
     descriptionInputEdit,

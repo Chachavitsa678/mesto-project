@@ -1,53 +1,38 @@
 import { createCardElement } from "./card.js";
 
-let currentPopup = null;
-
-
-export function saveEditInfo(title, subtitle, nameInput, descriptionInput) {
-    console.log("is popup exsist: ", currentPopup);
+export function saveEditInfo(popup, title, subtitle, nameInput, descriptionInput) {
     title.textContent = nameInput.value;
     subtitle.textContent = descriptionInput.value;
-    closePopup(currentPopup);
+    closePopup(popup);
 }
 
-export function saveAddInfo(elementsContainer, nameInput, descriptionInput) {
+export function saveAddInfo(popup, elementsContainer, nameInput, descriptionInput) {
     const cardElement = createCardElement(nameInput.value, descriptionInput.value);
     elementsContainer.prepend(cardElement);
-    closePopup(currentPopup);
+    nameInput.value = '';
+    descriptionInput.value = '';
+    closePopup(popup);
 }
 
-export function openPopup(buttonEvent, popup) {
-    currentPopup = popup;
+export function openPopup(popup) {
     popup.classList.add('popup_opened');
-    document.addEventListener("keydown", function (event) {
-        handleEscClose(event, popup);
-    });
-    buttonEvent.stopPropagation();
-    document.addEventListener("click", function (event) {
-        handleOverleyClose(event, popup);
-    });
-    const popupClose = currentPopup.querySelector('.popup__close-image')
-    popupClose.addEventListener('click', function () {
-        // Скрыть диалог
-        closePopup(popup);
-    });
+    document.addEventListener("keydown", handleEscClose);
 }
 
-function closePopup(popup) {
+export function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    currentPopup = null;
+    document.removeEventListener("keydown", handleEscClose);
 }
 
-function handleEscClose(event, popup) {
-    console.log(event.key);
+function handleEscClose(event) {
     if (event.key === 'Escape') {
+        const popup = document.querySelector('.popup_opened');
         closePopup(popup);
     }
 }
 
-function handleOverleyClose(event, popup) {
-    let popupContainer = popup.querySelector('[class*="popup__container"]') || popup.querySelector('[class*="popup__view-container"]');
-    if (!popupContainer.contains(event.target) && popup.classList.contains('popup_opened')) {
-        closePopup(popup);
+export function handleOverleyClose(event) {
+    if (event.target.classList.contains('popup')) {
+        closePopup(event.target);
     }
 }

@@ -6,78 +6,84 @@ import {
     ERROR_INVALID_CHARACTERS
 } from "./utils.js";
 
-export function startValidityAfterLoad(arrays) {
-    arrays.forEach(array => {
-        isFieldValid(array.field, array.form)
-        array.form.addEventListener("input", () => {
-            isFieldValid(array.field, array.form)
-        });
+export function enableValidation(settings) {
+    const forms = document.querySelectorAll(settings.formSelector);
+    forms.forEach(form => {
+        checkInputValidity(form, settings);
+        setEventListeners(form, settings);
     });
 }
 
-
-const showInputError = (element, errorMessage) => {
-    element.classList.add('popup__edit_error-visible');
-    errorMessage.classList.add('popup__error_visible');
-    errorMessage.textContent = getErrorMessage(element);
+const setEventListeners = (formElement, settings) => {
+    formElement.addEventListener('input', () => {
+        checkInputValidity(formElement, settings);
+    });
 };
 
-const hideInputError = (element, errorMessage) => {
-    element.classList.remove('popup__edit_error-visible');
-    errorMessage.classList.remove('popup__error_visible');
-    errorMessage.textContent = getErrorMessage(element);
-};
-
-function isFieldValid(fields, form) {
-    const button = form.querySelector('.popup__save-button');
+export const checkInputValidity = (formElement, settings) => {
+    const button = formElement.querySelector(settings.submitButtonSelector);
     let isTextValid = true;
-    let isUrlValid = true; // Изначально устанавливаем isUrlValid в true
-
-    fields.forEach(field => {
+    let isUrlValid = true;
+    const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+    inputList.forEach(field => {
         if (field.type === 'url') {
-            isUrlValid = isUrlFieldValid(field.input, field.error);
+            isUrlValid = isUrlFieldValid(field, settings);
         }
-        if (field.type === 'no_url' && !isTextFieldValid(field.input, field.error)) {
+        if (field.type !== 'url' && !isTextFieldValid(field, settings)) {
             isTextValid = false;
         }
     });
 
-
     if (isTextValid && isUrlValid) {
-        enabledButton(button);
+        enabledButton(button, settings);
     } else {
-        disabledButton(button);
+        disabledButton(button, settings);
     }
-}
+};
 
-function isTextFieldValid(element, errorMessage) {
+function isTextFieldValid(element, settings) {
     if (!element.validity.valid || !regex.test(element.value)) {
-        showInputError(element, errorMessage);
+        showInputError(element, settings);
         return false;
     } else {
-        hideInputError(element, errorMessage);
+        hideInputError(element, settings);
         return true;
     }
 }
 
-function isUrlFieldValid(element, errorMessage) {
+function isUrlFieldValid(element, settings) {
     if (!element.validity.valid) {
-        showInputError(element, errorMessage);
+        showInputError(element, settings);
         return false;
     } else {
-        hideInputError(element, errorMessage);
+        hideInputError(element, settings);
         return true;
     }
 }
 
-function disabledButton(button) {
-    button.classList.add('popup__save-button_disabled');
+
+const showInputError = (formInput, settings) => {
+    const inputError = formInput.nextElementSibling;
+    formInput.classList.add(settings.errorInputModifier);
+    inputError.textContent = getErrorMessage(formInput);
+    inputError.classList.add(settings.errorMessageModifier);
+};
+
+const hideInputError = (formInput, settings) => {
+    const inputError = formInput.nextElementSibling;
+    formInput.classList.remove(settings.errorInputModifier);
+    inputError.classList.remove(settings.errorMessageModifier);
+    inputError.textContent = '';
+};
+
+function disabledButton(button, settings) {
+    button.classList.add(settings.inactiveButtonClass);
     button.disabled = true;
     button.style.pointerEvents = 'none';
 }
 
-function enabledButton(button) {
-    button.classList.remove('popup__save-button_disabled');
+function enabledButton(button, settings) {
+    button.classList.remove(settings.inactiveButtonClass);
     button.disabled = false;
     button.style.pointerEvents = 'auto';
 }

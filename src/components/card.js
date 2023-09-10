@@ -30,7 +30,7 @@ export function createCardElement(name, link) {
         const title = document.querySelector('.popup__description');
         image.src = cardImage.src;
         title.textContent = cardTitle.textContent;
-        openPopup(event, popupView);
+        openPopup(popupView);
     });
     return cardClone;
 }
