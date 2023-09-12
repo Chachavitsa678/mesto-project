@@ -34,12 +34,12 @@ function updateProfileInfo(nameProfile, aboutProfile) {
     .then(checkResponse)
 }
 
-function updateAvatar(ava) {
+function updateAvatar(newAvatar) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
-      avatar: ava,
+      avatar: newAvatar,
     })
   })
     .then(checkResponse)
