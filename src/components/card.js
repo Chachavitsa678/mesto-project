@@ -1,23 +1,17 @@
-import { openPopup, closePopup } from "./modal.js";
+import { openPopup} from "./modal.js";
 import {
     popupView,
-    popupAdd,
     elementsContainer,
-    nameInputAdd,
-    descriptionInputAdd,
-    formAdd,
-    validationSettings,
-    renderLoading,
     popupConfidence,
-    formConfidence,
-    updateTime
+    formConfidence
 } from "./utils.js";
-import { postCard, deleteCardFromServer, addLike, deleteLike } from './api'
-import { userId } from "./index.js";
-import { checkInputValidity } from "./validate.js";
+import { addLike, deleteLike } from './api'
+import { 
+    userId,
+    areYouSure
+ } from "./index.js";
 
-function createCardElement(cardData) {
-    const cardTemplate = document.querySelector('#card-template');
+function createCardElement(cardData, cardTemplate) {
     // Клонировать содержимое шаблона
     const cardClone = cardTemplate.content.querySelector('.elements__item').cloneNode(true);
 
@@ -62,8 +56,7 @@ function setLike(event) {
     if (!likeBtn.classList.contains('elements__like_active')) {
         addLike(item.id)
             .then((res) => {
-                likeBtn.classList.add('elements__like_active');
-                likeBtn.src = require('../images/like-checked.svg');
+                addLikeClass(likeBtn);
                 console.log("added ", likeCounter);
                 likeCounter.textContent = res.likes.length;
             })
@@ -71,8 +64,7 @@ function setLike(event) {
     } else {
         deleteLike(item.id)
             .then((res) => {
-                likeBtn.classList.remove('elements__like_active');
-                likeBtn.src = require('../images/like.svg');
+                removeLikeClass(likeBtn);
                 console.log("removed ", res.likes.length);
                 likeCounter.textContent = res.likes.length;
             })
@@ -80,39 +72,18 @@ function setLike(event) {
     }
 }
 
-export function handlePlaceFormSubmit(event) {
-    event.preventDefault();
-    const button = formAdd.querySelector(validationSettings.submitButtonSelector);
-    console.log("кнопка ", button);
-    renderLoading(button, 'Создание...');
-    const promisePost = postCard(nameInputAdd.value, descriptionInputAdd.value);
-    promisePost.then((card) => {
-        renderCard(card);
-    })
-        .then(() => {
-            formAdd.reset();
-            closePopup(popupAdd);
-            checkInputValidity(formAdd, validationSettings);
-        })
-        .catch(console.error)
-        .finally(() => {
-            renderLoading(button, 'Создать');
-        })
-}
-
 function getLikesFromServer(cardData, button, counter) {
     const userIds = cardData.likes.map(user => {
         return user._id;
     })
     if (userIds.includes(userId)) {
-        button.classList.add('elements__like_active');
-        button.src = require('../images/like-checked.svg');
+        addLikeClass(button);
         counter.textContent = cardData.likes.length;
     }
 }
 
-export function renderCard(cardData) {
-    const cardElement = createCardElement(cardData);
+export function renderCard(cardData, cardTemplate) {
+    const cardElement = createCardElement(cardData, cardTemplate);
     elementsContainer.prepend(cardElement);
 }
 
@@ -125,21 +96,16 @@ function handleDeleteButtonClick(event) {
         event.preventDefault();
         areYouSure(placeCard);
     });
-    
+
 }
 
-function areYouSure(placeCard) {
-    const button = formConfidence.querySelector(validationSettings.submitButtonSelector);
-    renderLoading(button, 'Удаляем...');
-    deleteCardFromServer(placeCard.id)
-        .then(() => {
-            placeCard.remove();
-        })
-        .catch(console.error)
-        .finally(() =>{
-            closePopup(popupConfidence);
-            setTimeout(() => {
-                renderLoading(button, 'Да');
-            }, updateTime);
-        });
+function addLikeClass(button) {
+    button.classList.add('elements__like_active');
+    button.src = require('../images/like-checked.svg');
 }
+
+function removeLikeClass(button) {
+    button.classList.remove('elements__like_active');
+    button.src = require('../images/like.svg');
+}
+

@@ -6,6 +6,7 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonAdd = document.querySelector('.profile__add-button');
 const avatarButton = document.querySelector('.profile__avatar-button');
+const cardTemplate = document.querySelector('#card-template');
 
 // edit popup consts
 const popupEdit = document.querySelector('.popup.popup_form_edit');
@@ -48,8 +49,6 @@ const validationSettings = {
     errorInputModifier: 'popup__edit_error-visible',
     errorMessageModifier: 'popup__error_visible',
 };
-
-const updateTime = 1000;
 
 const regex = /^[a-zA-Zа-яА-Я\- ]+$/;
 
@@ -130,6 +129,6 @@ export {
     popupConfidence,
     closeBtnConfidence,
     formConfidence,
-    updateTime
+    cardTemplate
 };
 

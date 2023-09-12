@@ -2,8 +2,8 @@ import '../pages/index.css'; // добавьте импорт главного �
 
 import { checkInputValidity, enableValidation } from "./validate.js";
 import { openPopup, handleOverleyClose, closePopup } from "./modal.js";
-import { renderCard, handlePlaceFormSubmit } from "./card.js";
-import { getProfile, getCards, updateProfileInfo, updateAvatar } from './api.js';
+import { renderCard } from "./card.js";
+import { getProfile, getCards, updateProfileInfo, updateAvatar, postCard, deleteCardFromServer } from './api.js';
 import {
     validationSettings,
     profileAvatar,
@@ -15,7 +15,9 @@ import {
     popupEdit,
     popupAdd,
     nameInputEdit,
+    nameInputAdd,
     descriptionInputEdit,
+    descriptionInputAdd,
     formEdit,
     formAdd,
     popupView,
@@ -30,7 +32,8 @@ import {
     renderLoading,
     popupConfidence,
     closeBtnConfidence,
-    updateTime
+    cardTemplate,
+    formConfidence
 } from "./utils.js";
 
 export let userId = '';
@@ -62,9 +65,7 @@ formAvatar.addEventListener('submit', function (event) {
         }).catch(console.error)
         .finally(() => {
             closePopup(popupAvatar);
-            setTimeout(() => {
-                renderLoading(button, 'Сохранить');
-            }, updateTime);
+            renderLoading(button, 'Сохранить');
         });
 });
 
@@ -83,9 +84,7 @@ formEdit.addEventListener('submit', function (event) {
         }
         ).finally(() => {
             closePopup(popupEdit);
-            setTimeout(() => {
-                renderLoading(button, 'Сохранить');
-            }, updateTime);
+            renderLoading(button, 'Сохранить');
         });
 
 });
@@ -135,7 +134,9 @@ Promise.all([getProfile(), getCards()])
         createProfileInfo(userData);
         userId = userData._id;
         cards.reverse();
-        cards.forEach(renderCard);
+        cards.forEach((card) => {
+            renderCard(card, cardTemplate);
+        });
     })
     .catch(console.error)
 
@@ -148,9 +149,42 @@ function createProfileInfo(userData) {
     profileAvatar.src = userData.avatar;
 }
 
-function setEditInfo(name, about){
+function setEditInfo(name, about) {
     nameInputEdit.value = name;
     descriptionInputEdit.value = about;
     checkInputValidity(formEdit, validationSettings);
 }
 
+function handlePlaceFormSubmit(event) {
+    event.preventDefault();
+    const button = formAdd.querySelector(validationSettings.submitButtonSelector);
+    console.log("кнопка ", button);
+    renderLoading(button, 'Создание...');
+    const promisePost = postCard(nameInputAdd.value, descriptionInputAdd.value);
+    promisePost.then((card) => {
+        renderCard(card, cardTemplate);
+    })
+        .then(() => {
+            formAdd.reset();
+            closePopup(popupAdd);
+            checkInputValidity(formAdd, validationSettings);
+        })
+        .catch(console.error)
+        .finally(() => {
+            renderLoading(button, 'Создать');
+        })
+}
+
+export function areYouSure(domElement) {
+    const button = formConfidence.querySelector(validationSettings.submitButtonSelector);
+    renderLoading(button, 'Удаляем...');
+    deleteCardFromServer(domElement.id)
+        .then(() => {
+            domElement.remove();
+        })
+        .catch(console.error)
+        .finally(() => {
+            closePopup(popupConfidence);
+            renderLoading(button, 'Да');
+        });
+}
