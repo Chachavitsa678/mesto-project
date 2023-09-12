@@ -1,18 +1,3 @@
-import { createCardElement } from "./card.js";
-
-export function saveEditInfo(popup, title, subtitle, nameInput, descriptionInput) {
-    title.textContent = nameInput.value;
-    subtitle.textContent = descriptionInput.value;
-    closePopup(popup);
-}
-
-export function saveAddInfo(popup, elementsContainer, nameInput, descriptionInput) {
-    const cardElement = createCardElement(nameInput.value, descriptionInput.value);
-    elementsContainer.prepend(cardElement);
-    nameInput.value = '';
-    descriptionInput.value = '';
-    closePopup(popup);
-}
 
 export function openPopup(popup) {
     popup.classList.add('popup_opened');

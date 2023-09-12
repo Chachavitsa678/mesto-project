@@ -1,9 +1,11 @@
 // common consts 
 const elementsContainer = document.querySelector('.elements');
 const profileTitle = document.querySelector('.profile__title');
+const profileAvatar = document.querySelector('.profile__avatar');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonAdd = document.querySelector('.profile__add-button');
+const avatarButton = document.querySelector('.profile__avatar-button');
 
 // edit popup consts
 const popupEdit = document.querySelector('.popup.popup_form_edit');
@@ -25,6 +27,16 @@ const errorNameEdit = document.getElementById('name-error');
 const errorDescriptionEdit = document.getElementById('description-error');
 const errorNameAdd = document.getElementById('place-error');
 const errorDescriptionAdd = document.getElementById('link-error');
+const errorAvatar = document.getElementById('avatar-error')
+// avatar popup consts
+const popupAvatar = document.getElementById('popup-avatar');
+const formAvatar = document.querySelector('.popup__container.popup_form_avatar');
+const linkAvatarInput = document.getElementById('avatar-input');
+const closeBtnAvatar = document.getElementById('avatar-close');
+// confidence popup consts
+const popupConfidence = document.getElementById('popup-confidence');
+const formConfidence = document.querySelector('.popup__container.popup_form_confidence');
+const closeBtnConfidence = document.getElementById('confidence-close');
 
 //Поля валидации
 const validationSettings = {
@@ -36,6 +48,8 @@ const validationSettings = {
     errorInputModifier: 'popup__edit_error-visible',
     errorMessageModifier: 'popup__error_visible',
 };
+
+const updateTime = 1000;
 
 
 const initialCards = [
@@ -91,12 +105,25 @@ const truncateInputText = (input, maxWidth) => {
     input.style.width = '100%'; // Восстанавливаем ширину поля ввода
 };
 
+function checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  
+  function renderLoading(submitButton, text) {
+    submitButton.textContent = text;
+  }
+
 
 export {
     elementsContainer,
     validationSettings,
+    profileAvatar,
     profileTitle,
     profileSubtitle,
+    avatarButton,
     buttonAdd,
     buttonEdit,
     popupEdit,
@@ -121,5 +148,17 @@ export {
     ERROR_TOO_SHORT,
     ERROR_INVALID_URL,
     ERROR_INVALID_CHARACTERS,
-    truncateInputText
+    truncateInputText,
+    checkResponse,
+    renderLoading,
+    errorAvatar,
+    closeBtnAvatar,
+    popupAvatar,
+    formAvatar,
+    linkAvatarInput,
+    popupConfidence,
+    closeBtnConfidence,
+    formConfidence,
+    updateTime
 };
+

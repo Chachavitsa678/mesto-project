@@ -17,12 +17,15 @@
         </header>
         <main class="content">
             <section class="profile">
-                <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Фото профиля">
+                <button class="profile__avatar-button" type="button">
+                    <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Фото профиля">
+                </button>
                 <div class="profile__text-column">
                     <div class="profile__row">
                         <h1 class="profile__title">Жак-Ив Кусто</h1>
                         <button type="button" class="profile__edit-button">
-                            <img class="profile__edit-image" src="<%=require('./images/edit-button.svg')%>" alt="Кнопка редактировать">
+                            <img class="profile__edit-image" src="<%=require('./images/edit-button.svg')%>"
+                                alt="Кнопка редактировать">
                         </button>
                     </div>
                     <p class="profile__subtitle">Исследователь океана</p>
@@ -44,9 +47,12 @@
                     </div>
                     <div class="elements__column">
                         <h2 class="elements__title"></h2>
-                        <button class="elements__like" type="button">
-                            <img class="elements__like-image" src="<%=require('./images/like.svg')%>" alt="Лайк">
-                        </button>
+                        <div class="elements__like-container">
+                            <button class="elements__like" type="button">
+                                <img class="elements__like-image" src="<%=require('./images/like.svg')%>" alt="Лайк">
+                            </button>
+                            <p class="elements__like-counter">0</p>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -96,6 +102,35 @@
             </div>
         </section>
 
+        <section class="popup" id="popup-avatar">
+            <div class="popup__column">
+                <button class="popup__close" id="avatar-close" type="button">
+                    <img class="popup__close-image" src="<%=require('./images/close-icon.svg')%>" alt="Закрыть">
+                </button>
+                <form class="popup__container popup_form_avatar" name="profile avatar" novalidate>
+                    <h2 class="popup__title">Обновить аватар</h2>
+                    <div class="popup__box">
+                        <input class="popup__edit" id="avatar-input" name="description"
+                            required type="url" placeholder="Ссылка на картинку">
+                        <span id="avatar-error" class="popup__error">Ета ашыбка</span>
+                    </div>
+                    <button class="popup__save-button" type="submit">Сохранить</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="popup" id="popup-confidence">
+            <div class="popup__column">
+                <button class="popup__close" id="confidence-close" type="button">
+                    <img class="popup__close-image" src="<%=require('./images/close-icon.svg')%>" alt="Закрыть">
+                </button>
+                <form class="popup__container popup_form_confidence" name="profile avatar" novalidate>
+                    <h2 class="popup__title">Вы уверены?</h2>
+                    <button class="popup__save-button" type="submit">Да</button>
+                </form>
+            </div>
+        </section>
+
         <section class="popup popup_form_view">
             <div class="popup__view-container">
                 <button class="popup__close popup__close-button-for-view" type="button" aria-label="Закрыть окно">
@@ -110,7 +145,6 @@
             <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
         </footer>
     </div>
-    <script src="./script/script.js"></script>
 </body>
 
 </html>

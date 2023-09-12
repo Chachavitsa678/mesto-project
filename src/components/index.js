@@ -1,41 +1,44 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей 
 
-import { enableValidation, checkInputValidity } from "./validate.js";
-import { openPopup, saveEditInfo, saveAddInfo, handleOverleyClose, closePopup } from "./modal.js";
-import { createCardElement } from "./card.js";
+import { checkInputValidity, enableValidation } from "./validate.js";
+import { openPopup, handleOverleyClose, closePopup } from "./modal.js";
+import { renderCard, handlePlaceFormSubmit } from "./card.js";
+import { getProfile, getCards, updateProfileInfo, updateAvatar } from './api.js';
 import {
-    elementsContainer,
     validationSettings,
+    profileAvatar,
     profileTitle,
     profileSubtitle,
+    avatarButton,
     buttonAdd,
     buttonEdit,
     popupEdit,
     popupAdd,
     nameInputEdit,
     descriptionInputEdit,
-    nameInputAdd,
-    descriptionInputAdd,
     formEdit,
     formAdd,
     popupView,
     closeBtnEdit,
     closeBtnAdd,
     closeBtnView,
-    initialCards,
-    truncateInputText
+    truncateInputText,
+    closeBtnAvatar,
+    popupAvatar,
+    formAvatar,
+    linkAvatarInput,
+    renderLoading,
+    popupConfidence,
+    closeBtnConfidence,
+    updateTime
 } from "./utils.js";
 
-setEditInfo();
+export let userId = '';
 
-initialCards.forEach(card => {
-    const cardElement = createCardElement(card.name, card.link);
-    elementsContainer.appendChild(cardElement);
-})
 // Обработчик клика на кнопку редактирования
 buttonEdit.addEventListener('click', function () {
     // Показать диалог
-    setEditInfo();
+    setEditInfo(profileTitle.textContent, profileSubtitle.textContent);
     openPopup(popupEdit);
 });
 
@@ -44,16 +47,49 @@ buttonAdd.addEventListener('click', function () {
     openPopup(popupAdd);
 });
 
+avatarButton.addEventListener('click', () => {
+    formAvatar.reset();
+    openPopup(popupAvatar);
+});
+
+formAvatar.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const button = formAvatar.querySelector(validationSettings.submitButtonSelector);
+    renderLoading(button, 'Сохранение...');
+    updateAvatar(linkAvatarInput.value)
+        .then(data => {
+            profileAvatar.src = data.avatar
+        }).catch(console.error)
+        .finally(() => {
+            closePopup(popupAvatar);
+            setTimeout(() => {
+                renderLoading(button, 'Сохранить');
+            }, updateTime);
+        });
+});
+
 // Обработчик клика на кнопку сохранения
 formEdit.addEventListener('submit', function (event) {
     event.preventDefault();
-    saveEditInfo(popupEdit, profileTitle, profileSubtitle, nameInputEdit, descriptionInputEdit);
+    const button = formEdit.querySelector(validationSettings.submitButtonSelector);
+    renderLoading(button, 'Сохранение...');
+    updateProfileInfo(nameInputEdit.value, descriptionInputEdit.value)
+        .then(data => {
+            console.log("update:", data);
+            profileTitle.textContent = data.name;
+            profileSubtitle.textContent = data.about;
+        }).catch(error => {
+            console.error("Error: ", error)
+        }
+        ).finally(() => {
+            closePopup(popupEdit);
+            setTimeout(() => {
+                renderLoading(button, 'Сохранить');
+            }, updateTime);
+        });
+
 });
-formAdd.addEventListener('submit', function (event) {
-    event.preventDefault();
-    saveAddInfo(popupAdd, elementsContainer, nameInputAdd, descriptionInputAdd);
-    checkInputValidity(formAdd, validationSettings);
-});
+formAdd.addEventListener('submit', handlePlaceFormSubmit);
 
 // Ограничение ширины текста в полях ввода
 const nameInputParent = nameInputEdit.parentNode;
@@ -75,6 +111,8 @@ window.addEventListener('resize', () => {
 popupEdit.addEventListener('click', handleOverleyClose);
 popupAdd.addEventListener('click', handleOverleyClose);
 popupView.addEventListener('click', handleOverleyClose);
+popupAvatar.addEventListener('click', handleOverleyClose);
+popupConfidence.addEventListener('click', handleOverleyClose);
 closeBtnEdit.addEventListener('click', () => {
     closePopup(popupEdit);
 });
@@ -84,10 +122,35 @@ closeBtnAdd.addEventListener('click', () => {
 closeBtnView.addEventListener('click', () => {
     closePopup(popupView);
 });
+closeBtnAvatar.addEventListener('click', () => {
+    closePopup(popupAvatar);
+});
+closeBtnConfidence.addEventListener('click', () => {
+    closePopup(popupConfidence);
+});
+
+Promise.all([getProfile(), getCards()])
+    .then(([userData, cards]) => {
+        console.log("userData: ", userData);
+        createProfileInfo(userData);
+        userId = userData._id;
+        cards.reverse();
+        cards.forEach(renderCard);
+    })
+    .catch(console.error)
 
 enableValidation(validationSettings);
 
-function setEditInfo() {
-    nameInputEdit.value = profileTitle.textContent;
-    descriptionInputEdit.value = profileSubtitle.textContent;
+function createProfileInfo(userData) {
+    profileTitle.textContent = userData.name;
+    profileSubtitle.textContent = userData.about;
+    setEditInfo(userData.name, userData.about);
+    profileAvatar.src = userData.avatar;
 }
+
+function setEditInfo(name, about){
+    nameInputEdit.value = name;
+    descriptionInputEdit.value = about;
+    checkInputValidity(formEdit, validationSettings);
+}
+
