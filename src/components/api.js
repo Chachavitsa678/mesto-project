@@ -65,7 +65,7 @@ function deleteCardFromServer(cardId) {
     .then(checkResponse)
 }
 
-function addLike(cardId) {
+function putLike(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers,
@@ -81,4 +81,4 @@ function deleteLike(cardId) {
     .then(checkResponse)
 }
 
-export { postCard, deleteCardFromServer, addLike, deleteLike, getProfile, getCards, updateProfileInfo, updateAvatar };
+export { postCard, deleteCardFromServer, putLike, deleteLike, getProfile, getCards, updateProfileInfo, updateAvatar };

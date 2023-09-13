@@ -181,10 +181,10 @@ export function areYouSure(domElement) {
     deleteCardFromServer(domElement.id)
         .then(() => {
             domElement.remove();
+            closePopup(popupConfidence);
         })
         .catch(console.error)
         .finally(() => {
-            closePopup(popupConfidence);
             renderLoading(button, 'Да');
         });
 }

@@ -5,7 +5,7 @@ import {
     popupConfidence,
     formConfidence
 } from "./utils.js";
-import { addLike, deleteLike } from './api'
+import { putLike, deleteLike } from './api'
 import { 
     userId,
     areYouSure
@@ -54,19 +54,17 @@ function setLike(event) {
     const likeCounter = item.querySelector('.elements__like-counter');
     console.log("кнопка ", item.id);
     if (!likeBtn.classList.contains('elements__like_active')) {
-        addLike(item.id)
+        putLike(item.id)
             .then((res) => {
-                addLikeClass(likeBtn);
+                addLike(likeBtn, likeCounter, res.likes.length);
                 console.log("added ", likeCounter);
-                likeCounter.textContent = res.likes.length;
             })
             .catch(console.error);
     } else {
         deleteLike(item.id)
             .then((res) => {
-                removeLikeClass(likeBtn);
+                removeLike(likeBtn, likeCounter, res.likes.length);
                 console.log("removed ", res.likes.length);
-                likeCounter.textContent = res.likes.length;
             })
             .catch(console.error);
     }
@@ -77,7 +75,7 @@ function getLikesFromServer(cardData, button, counter) {
         return user._id;
     })
     if (userIds.includes(userId)) {
-        addLikeClass(button);
+        addLike(button, counter, cardData.likes.length);
         counter.textContent = cardData.likes.length;
     }
 }
@@ -99,13 +97,15 @@ function handleDeleteButtonClick(event) {
 
 }
 
-function addLikeClass(button) {
+function addLike(button, likeCounter, likes) {
     button.classList.add('elements__like_active');
     button.src = require('../images/like-checked.svg');
+    likeCounter.textContent = likes;
 }
 
-function removeLikeClass(button) {
+function removeLike(button, likeCounter, likes) {
     button.classList.remove('elements__like_active');
     button.src = require('../images/like.svg');
+    likeCounter.textContent = likes;
 }
 
